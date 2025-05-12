@@ -26,7 +26,7 @@ function ProtectedRoute({ children }) {
     return <Navigate to="/" />;
   }
   return children;
-}
+} 
 
 function App() {
   const navigate = useNavigate();
