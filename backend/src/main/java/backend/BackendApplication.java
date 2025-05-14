@@ -37,6 +37,6 @@ public class BackendApplication {
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.debug", "true");
 
-		return mailSender;
+		return mailSender; 
 	}
 }
