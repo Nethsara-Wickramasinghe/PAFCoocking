@@ -68,15 +68,15 @@
 
 .trophy {
   color: #f6ad55;
-  background: rgba(246, 173, 85, 0.1);
+  background: rgba(246, 173, 85, 0);
 }
 .trending {
   color: #68d391;
-  background: rgba(104, 211, 145, 0.1);
+  background: rgba(104, 211, 145, 0);
 }
 .growth {
   color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
+  background: rgba(102, 126, 234, 0);
 }
 
 .stat-details {
