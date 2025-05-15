@@ -134,7 +134,7 @@
   font-size: 1rem;
   transition: all 0.3s ease;
   background: transparent;
-}
+}    
 
 .Auth_input:focus {
   border-color: #ffffff;
