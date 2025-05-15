@@ -19,7 +19,7 @@ function NotificationsPage() {
         setNotifications(response.data);
       } catch (error) {
         console.error('Error fetching notifications:', error);
-      }
+      }  
     };
 
     if (userId) {
