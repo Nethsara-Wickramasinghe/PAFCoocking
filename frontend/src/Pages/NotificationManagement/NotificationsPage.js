@@ -97,7 +97,7 @@ function NotificationsPage() {
                     </div>
                   </div>
                   
-                  <div className="notification-actions">
+                  <div className="notification-actions">    
                     {!notification.read && (
                       <motion.button
                         whileHover={{ scale: 1.1 }}
