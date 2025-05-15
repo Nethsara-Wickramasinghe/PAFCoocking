@@ -55,7 +55,7 @@ function NotificationsPage() {
     >
       <NavBar />
       <div className="notifications-content">
-        <div className="notifications-header">
+        <div className="notifications-header">   
           <h1>Notifications</h1>
           <div className="notification-stats">
             <span className="unread-count">
