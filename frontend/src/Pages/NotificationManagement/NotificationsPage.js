@@ -124,7 +124,7 @@ function NotificationsPage() {
         </AnimatePresence>
       </div>
     </motion.div>
-  );
+  );     
 }
 
 export default NotificationsPage;
