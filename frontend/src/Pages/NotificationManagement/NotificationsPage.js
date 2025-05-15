@@ -72,7 +72,7 @@ function NotificationsPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
             >
-              <IoNotifications className="empty-icon" />
+              <IoNotifications className="empty-icon" />       
               <h3>No Notifications</h3>
               <p>You're all caught up!</p>
             </motion.div>
