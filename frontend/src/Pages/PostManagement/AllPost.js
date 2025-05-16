@@ -587,7 +587,6 @@ function AllPost() {
       </Modal>
     </motion.div>
   );
-  
 }
 
 export default AllPost;
