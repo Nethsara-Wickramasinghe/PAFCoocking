@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { IoCloudUpload, IoImageOutline, IoVideocam } from "react-icons/io5";
 import './UpdatePost.css'
 function UpdatePost() {
-  const { id } = useParams(); // Get the post ID from the URL
+  const { id } = useParams(); // Get the post ID from the URL 
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
