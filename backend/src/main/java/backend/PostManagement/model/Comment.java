@@ -1,6 +1,6 @@
 package backend.PostManagement.model;
 
-public class Comment {
+public class Comment { 
     private String id;
     private String userID;
     private String userFullName;
