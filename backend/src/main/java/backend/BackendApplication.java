@@ -38,5 +38,5 @@ public class BackendApplication {
 		props.put("mail.debug", "true");
 
 		return mailSender;
-	}
+	} 
 }
