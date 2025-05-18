@@ -5,7 +5,7 @@ import { IoMdAdd } from "react-icons/io";
 
 function UserRegister() {
     const [formData, setFormData] = useState({
-        fullname: '',
+        fullname: '', 
         email: '',
         password: '',
         phone: '',
