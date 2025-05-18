@@ -11,7 +11,7 @@ function UserRegister() {
         phone: '',
         skills: [],
         bio: '',
-    });
+    });     
     const [profilePicture, setProfilePicture] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
     const [verificationCode, setVerificationCode] = useState('');
