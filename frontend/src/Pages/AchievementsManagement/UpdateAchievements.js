@@ -1,25 +1,31 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { IoCloudUpload, IoImage, IoClose, IoChevronDown } from "react-icons/io5";
-import { FiCheckCircle } from 'react-icons/fi';
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  IoCloudUpload,
+  IoImage,
+  IoClose,
+  IoChevronDown,
+} from "react-icons/io5";
+import { FiCheckCircle } from "react-icons/fi";
 import { FaLaptopCode, FaCode, FaUtensils, FaCamera } from "react-icons/fa";
-import NavBar from '../../Components/NavBar/NavBar';
-import './UpdateAchievements.css';
+import NavBar from "../../Components/NavBar/NavBar";
+import "./UpdateAchievements.css";
 
 function UpdateAchievements() {
   const { id } = useParams();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    date: '',
-    category: '',
-    postOwnerID: '',
-    postOwnerName: '',
-    imageUrl: ''
+    title: "",
+    description: "",
+    date: "",
+    category: "",
+    postOwnerID: "",
+    postOwnerName: "",
+    imageUrl: "",
   });
+
   const [selectedFile, setSelectedFile] = useState(null);
-  const [previewImage, setPreviewImage] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [isDragging, setIsDragging] = useState(false);
@@ -28,27 +34,31 @@ function UpdateAchievements() {
   const dropdownRef = useRef(null);
 
   const categories = [
-    { value: 'Tech', label: 'Technology', icon: FaLaptopCode },
-    { value: 'Programming', label: 'Programming', icon: FaCode },
-    { value: 'Cooking', label: 'Cooking', icon: FaUtensils },
-    { value: 'Photography', label: 'Photography', icon: FaCamera }
+    { value: "Tech", label: "Technology", icon: FaLaptopCode },
+    { value: "Programming", label: "Programming", icon: FaCode },
+    { value: "Cooking", label: "Cooking", icon: FaUtensils },
+    { value: "Photography", label: "Photography", icon: FaCamera },
   ];
 
   useEffect(() => {
     const fetchAchievement = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/achievements/${id}`);
+        const response = await fetch(
+          `http://localhost:8080/achievements/${id}`
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch achievement');
+          throw new Error("Failed to fetch achievement");
         }
         const data = await response.json();
         setFormData(data);
         if (data.imageUrl) {
-          setPreviewImage(`http://localhost:8080/achievements/images/${data.imageUrl}`);
+          setPreviewImage(
+            `http://localhost:8080/achievements/images/${data.imageUrl}`
+          );
         }
       } catch (error) {
-        console.error('Error fetching Achievements data:', error);
-        alert('Error loading achievement data');
+        console.error("Error fetching Achievements data:", error);
+        alert("Error loading achievement data");
       }
     };
     fetchAchievement();
@@ -60,23 +70,24 @@ function UpdateAchievements() {
         setIsDropdownOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.title.trim()) newErrors.title = 'Title is required';
-    if (!formData.description.trim()) newErrors.description = 'Description is required';
-    if (!formData.category) newErrors.category = 'Category is required';
-    if (!formData.date) newErrors.date = 'Date is required';
+    if (!formData.title.trim()) newErrors.title = "Title is required";
+    if (!formData.description.trim())
+      newErrors.description = "Description is required";
+    if (!formData.category) newErrors.category = "Category is required";
+    if (!formData.date) newErrors.date = "Date is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e) => {
@@ -101,14 +112,14 @@ function UpdateAchievements() {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
+    if (file && file.type.startsWith("image/")) {
       setSelectedFile(file);
       setPreviewImage(URL.createObjectURL(file));
     }
   };
 
   const handleCategorySelect = (value) => {
-    handleInputChange({ target: { name: 'category', value } });
+    handleInputChange({ target: { name: "category", value } });
     setIsDropdownOpen(false);
   };
 
@@ -119,19 +130,22 @@ function UpdateAchievements() {
 
     try {
       let imageUrl = formData.imageUrl;
-      
+
       // Upload new image if selected
       if (selectedFile) {
         const uploadFormData = new FormData();
-        uploadFormData.append('file', selectedFile);
-        
-        const uploadResponse = await fetch('http://localhost:8080/achievements/upload', {
-          method: 'POST',
-          body: uploadFormData,
-        });
-        
+        uploadFormData.append("file", selectedFile);
+
+        const uploadResponse = await fetch(
+          "http://localhost:8080/achievements/upload",
+          {
+            method: "POST",
+            body: uploadFormData,
+          }
+        );
+
         if (!uploadResponse.ok) {
-          throw new Error('Image upload failed');
+          throw new Error("Image upload failed");
         }
         imageUrl = await uploadResponse.text();
       }
@@ -139,22 +153,22 @@ function UpdateAchievements() {
       // Update achievement data
       const updatedData = { ...formData, imageUrl };
       const response = await fetch(`http://localhost:8080/achievements/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
       });
 
       if (response.ok) {
         setIsSuccess(true);
         setTimeout(() => {
-          window.location.href = '/allAchievements';
+          window.location.href = "/allAchievements";
         }, 1500);
       } else {
-        throw new Error('Failed to update achievement');
+        throw new Error("Failed to update achievement");
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert(error.message || 'An error occurred during update');
+      console.error("Error:", error);
+      alert(error.message || "An error occurred during update");
     } finally {
       setIsLoading(false);
     }
@@ -165,7 +179,7 @@ function UpdateAchievements() {
       <NavBar />
       <AnimatePresence>
         {isSuccess && (
-          <motion.div 
+          <motion.div
             className="success-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -175,8 +189,8 @@ function UpdateAchievements() {
             <p>Successfully Updated!</p>
           </motion.div>
         )}
-        
-        <motion.div 
+
+        <motion.div
           className="update-content"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -187,12 +201,14 @@ function UpdateAchievements() {
           </div>
 
           <form onSubmit={handleSubmit} className="modern-form">
-            <div className="media-section"
-                 onDragOver={handleDragOver}
-                 onDragLeave={handleDragLeave}
-                 onDrop={handleDrop}>
-              <motion.div 
-                className={`upload-container ${isDragging ? 'dragging' : ''}`}
+            <div
+              className="media-section"
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              <motion.div
+                className={`upload-container ${isDragging ? "dragging" : ""}`}
                 whileHover={{ scale: 1.02 }}
               >
                 {previewImage ? (
@@ -204,15 +220,20 @@ function UpdateAchievements() {
                       animate={{ opacity: 1 }}
                     />
                     <div className="preview-actions">
-                      <button type="button" onClick={() => document.getElementById('file-input').click()}>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          document.getElementById("file-input").click()
+                        }
+                      >
                         <IoImage />
                         <span>Change Image</span>
                       </button>
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         className="remove-btn"
                         onClick={() => {
-                          setPreviewImage('');
+                          setPreviewImage("");
                           setSelectedFile(null);
                         }}
                       >
@@ -225,7 +246,9 @@ function UpdateAchievements() {
                   <label className="upload-label" htmlFor="file-input">
                     <IoCloudUpload className="upload-icon" />
                     <span>Choose an image to upload</span>
-                    <p className="upload-hint">Drag & drop or click to browse</p>
+                    <p className="upload-hint">
+                      Drag & drop or click to browse
+                    </p>
                   </label>
                 )}
                 <input
@@ -251,7 +274,7 @@ function UpdateAchievements() {
                   />
                   <label>Achievement Title</label>
                   {errors.title && (
-                    <motion.span 
+                    <motion.span
                       className="error-message"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -261,25 +284,38 @@ function UpdateAchievements() {
                   )}
                 </div>
 
-                <div className="floating-input category-dropdown" ref={dropdownRef}>
-                  <div 
-                    className={`custom-select ${isDropdownOpen ? 'open' : ''}`}
+                <div
+                  className="floating-input category-dropdown"
+                  ref={dropdownRef}
+                >
+                  <div
+                    className={`custom-select ${isDropdownOpen ? "open" : ""}`}
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   >
                     <div className="selected-option">
                       {formData.category ? (
                         <>
-                          {categories.find(cat => cat.value === formData.category)?.icon?.({ className: 'category-icon' })}
-                          <span>{categories.find(cat => cat.value === formData.category)?.label}</span>
+                          {categories
+                            .find((cat) => cat.value === formData.category)
+                            ?.icon?.({ className: "category-icon" })}
+                          <span>
+                            {
+                              categories.find(
+                                (cat) => cat.value === formData.category
+                              )?.label
+                            }
+                          </span>
                         </>
                       ) : (
                         <span className="placeholder">Select Category</span>
                       )}
-                      <IoChevronDown className={`arrow-icon ${isDropdownOpen ? 'open' : ''}`} />
+                      <IoChevronDown
+                        className={`arrow-icon ${isDropdownOpen ? "open" : ""}`}
+                      />
                     </div>
-                    
+
                     {isDropdownOpen && (
-                      <motion.div 
+                      <motion.div
                         className="options-container"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -288,7 +324,11 @@ function UpdateAchievements() {
                         {categories.map((category) => (
                           <div
                             key={category.value}
-                            className={`option ${formData.category === category.value ? 'selected' : ''}`}
+                            className={`option ${
+                              formData.category === category.value
+                                ? "selected"
+                                : ""
+                            }`}
                             onClick={(e) => {
                               e.stopPropagation();
                               handleCategorySelect(category.value);
@@ -303,7 +343,7 @@ function UpdateAchievements() {
                   </div>
                   <label className="floating-label">Category</label>
                   {errors.category && (
-                    <motion.span 
+                    <motion.span
                       className="error-message"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -340,7 +380,7 @@ function UpdateAchievements() {
                   />
                   <label>Achievement Date</label>
                   {errors.date && (
-                    <motion.span 
+                    <motion.span
                       className="error-message"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -366,7 +406,7 @@ function UpdateAchievements() {
                     <span>Updating...</span>
                   </div>
                 ) : (
-                  'Update Achievement'
+                  "Update Achievement"
                 )}
               </motion.button>
               <motion.button
@@ -374,7 +414,7 @@ function UpdateAchievements() {
                 className="cancel-button"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => window.location.href = '/allAchievements'}
+                onClick={() => (window.location.href = "/allAchievements")}
               >
                 Cancel
               </motion.button>
