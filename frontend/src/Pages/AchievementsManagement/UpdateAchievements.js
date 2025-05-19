@@ -61,6 +61,7 @@ function UpdateAchievements() {
         alert("Error loading achievement data");
       }
     };
+
     fetchAchievement();
   }, [id]);
 
