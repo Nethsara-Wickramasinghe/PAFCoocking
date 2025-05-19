@@ -43,6 +43,7 @@ public class LearningPlanController {
         if (newLearningPlanModel.getPostOwnerID() == null || newLearningPlanModel.getPostOwnerID().isEmpty()) {
             throw new IllegalArgumentException("PostOwnerID is required."); // Ensure postOwnerID is provided
         }
+        
         // Fetch user's full name from UserRepository 
         String postOwnerName = userRepository.findById(newLearningPlanModel.getPostOwnerID())
                 .map(user -> user.getFullname())
