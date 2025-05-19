@@ -11,7 +11,11 @@
 }
 
 .achievements-header {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.8)
+  );
   backdrop-filter: blur(10px);
   border-radius: 24px;
   padding: 2rem;
@@ -62,9 +66,18 @@
   border-radius: 12px;
 }
 
-.trophy { color: #f6ad55; background: rgba(246, 173, 85, 0.1); }
-.trending { color: #68d391; background: rgba(104, 211, 145, 0.1); }
-.growth { color: #667eea; background: rgba(102, 126, 234, 0.1); }
+.trophy {
+  color: #f6ad55;
+  background: rgba(246, 173, 85, 0.1);
+}
+.trending {
+  color: #68d391;
+  background: rgba(104, 211, 145, 0.1);
+}
+.growth {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
 
 .stat-details {
   display: flex;
@@ -142,7 +155,7 @@
     gap: 1rem;
     text-align: center;
   }
-  
+
   .stats-banner {
     grid-template-columns: 1fr;
   }
@@ -373,7 +386,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.3) 100%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
 }
