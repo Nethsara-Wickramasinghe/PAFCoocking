@@ -463,6 +463,7 @@ function UpdateLearningPost() {
       </div>
     </div>
   );
+  
 }
 
 export default UpdateLearningPost;
