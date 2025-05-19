@@ -1,63 +1,73 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-import './MyAchievements.css';
-import NavBar from '../../Components/NavBar/NavBar';
-import { motion, AnimatePresence } from 'framer-motion';
+import "./MyAchievements.css";
+import NavBar from "../../Components/NavBar/NavBar";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaAward, FaTrophy, FaMedal, FaSort } from "react-icons/fa";
 import { IoStatsChart, IoGrid, IoList, IoAdd } from "react-icons/io5";
 
 function MyAchievements() {
   const [progressData, setProgressData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [viewMode, setViewMode] = useState('grid');
-  const [sortBy, setSortBy] = useState('date');
+  const [viewMode, setViewMode] = useState("grid");
+  const [sortBy, setSortBy] = useState("date");
   const [stats, setStats] = useState({
     total: 0,
     thisMonth: 0,
-    categories: {}
+    categories: {},
   });
-  const userId = localStorage.getItem('userID');
-
+  const userId = localStorage.getItem("userID");
   useEffect(() => {
-    fetch('http://localhost:8080/achievements')
+    fetch("http://localhost:8080/achievements")
       .then((response) => response.json())
       .then((data) => {
-        const userFilteredData = data.filter((achievement) => achievement.postOwnerID === userId);
+        const userFilteredData = data.filter(
+          (achievement) => achievement.postOwnerID === userId
+        );
         setProgressData(userFilteredData);
         setFilteredData(userFilteredData);
         setStats({
           total: userFilteredData.length,
-          thisMonth: userFilteredData.filter(a => new Date(a.date).getMonth() === new Date().getMonth()).length,
+          thisMonth: userFilteredData.filter(
+            (a) => new Date(a.date).getMonth() === new Date().getMonth()
+          ).length,
           categories: userFilteredData.reduce((acc, curr) => {
             acc[curr.category] = (acc[curr.category] || 0) + 1;
             return acc;
-          }, {})
+          }, {}),
         });
       })
-      .catch((error) => console.error('Error fetching Achievements data:', error));
+      .catch((error) =>
+        console.error("Error fetching Achievements data:", error)
+      );
   }, [userId]);
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this Achievements?')) {
+    if (window.confirm("Are you sure you want to delete this Achievements?")) {
       try {
-        const response = await fetch(`http://localhost:8080/achievements/${id}`, {
-          method: 'DELETE',
-        });
+        const response = await fetch(
+          `http://localhost:8080/achievements/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         if (response.ok) {
-          alert('Achievements deleted successfully!');
-          setFilteredData(filteredData.filter((progress) => progress.id !== id));
+          alert("Achievements deleted successfully!");
+          setFilteredData(
+            filteredData.filter((progress) => progress.id !== id)
+          );
         } else {
-          alert('Failed to delete Achievements.');
+          alert("Failed to delete Achievements.");
         }
       } catch (error) {
-        console.error('Error deleting Achievements:', error);
+        console.error("Error deleting Achievements:", error);
       }
     }
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="achievements-dashboard"
@@ -89,15 +99,15 @@ function MyAchievements() {
 
           <div className="controls-section">
             <div className="view-controls">
-              <button 
-                className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                onClick={() => setViewMode('grid')}
+              <button
+                className={`view-btn ${viewMode === "grid" ? "active" : ""}`}
+                onClick={() => setViewMode("grid")}
               >
                 <IoGrid />
               </button>
-              <button 
-                className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
-                onClick={() => setViewMode('list')}
+              <button
+                className={`view-btn ${viewMode === "list" ? "active" : ""}`}
+                onClick={() => setViewMode("list")}
               >
                 <IoList />
               </button>
@@ -107,7 +117,7 @@ function MyAchievements() {
               className="add-achievement-btn"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => window.location.href = '/addAchievements'}
+              onClick={() => (window.location.href = "/addAchievements")}
             >
               <IoAdd />
               <span>New Achievement</span>
@@ -116,12 +126,9 @@ function MyAchievements() {
         </div>
 
         <AnimatePresence>
-          <motion.div 
-            className={`achievements-grid ${viewMode}`}
-            layout
-          >
+          <motion.div className={`achievements-grid ${viewMode}`} layout>
             {filteredData.length === 0 ? (
-              <motion.div 
+              <motion.div
                 className="empty-state"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -132,14 +139,14 @@ function MyAchievements() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => window.location.href = '/addAchievements'}
+                  onClick={() => (window.location.href = "/addAchievements")}
                 >
                   Add First Achievement
                 </motion.button>
               </motion.div>
             ) : (
               filteredData.map((progress) => (
-                <motion.div 
+                <motion.div
                   key={progress.id}
                   className="achievement-card"
                   layout
@@ -148,30 +155,39 @@ function MyAchievements() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   whileHover={{ y: -5 }}
                 >
-                  <div className='user_details_card'>
-                    <div className='name_section_post_achi'>
-                      <p className='name_section_post_owner_name'>{progress.postOwnerName}</p>
-                      <p className='date_card_dte'> {progress.date}</p>
+                  <div className="user_details_card">
+                    <div className="name_section_post_achi">
+                      <p className="name_section_post_owner_name">
+                        {progress.postOwnerName}
+                      </p>
+                      <p className="date_card_dte"> {progress.date}</p>
                     </div>
                     {progress.postOwnerID === userId && (
-                      <div className='action_btn_icon_post'>
-                        <FaEdit 
-                          onClick={() => (window.location.href = `/updateAchievements/${progress.id}`)} 
-                          className='action_btn_icon' 
+                      <div className="action_btn_icon_post">
+                        <FaEdit
+                          onClick={() =>
+                            (window.location.href = `/updateAchievements/${progress.id}`)
+                          }
+                          className="action_btn_icon"
                         />
-                        <RiDeleteBin6Fill 
-                          onClick={() => handleDelete(progress.id)} 
-                          className='action_btn_icon' 
+                        <RiDeleteBin6Fill
+                          onClick={() => handleDelete(progress.id)}
+                          className="action_btn_icon"
                         />
                       </div>
                     )}
                   </div>
-                  <div className='dis_con'>
-                    <p className='topic_cont'>{progress.title}</p>
-                    <p className='dis_con_pera' style={{ whiteSpace: "pre-line" }}>{progress.description}</p>
+                  <div className="dis_con">
+                    <p className="topic_cont">{progress.title}</p>
+                    <p
+                      className="dis_con_pera"
+                      style={{ whiteSpace: "pre-line" }}
+                    >
+                      {progress.description}
+                    </p>
                     {progress.imageUrl && (
-                      <img 
-                        className='achievement_image'
+                      <img
+                        className="achievement_image"
                         alt="Achievement"
                         src={`http://localhost:8080/achievements/images/${progress.imageUrl}`}
                       />
