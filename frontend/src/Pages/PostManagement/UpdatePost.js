@@ -15,8 +15,7 @@ function UpdatePost() {
   const [newMedia, setNewMedia] = useState([]); // New media files to upload
   const [loading, setLoading] = useState(true); // Add loading state
 
-  useEffect(() => {
-    // Fetch the post details
+  useEffect(() => {// Fetch the post details
     const fetchPost = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/posts/${id}`);
