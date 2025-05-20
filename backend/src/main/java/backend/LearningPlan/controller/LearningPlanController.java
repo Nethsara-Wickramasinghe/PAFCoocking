@@ -36,14 +36,15 @@ public class LearningPlanController {
     @Autowired
     private NotificationRepository notificationRepository;
 
-    //Insert
+    //Insert 
     @PostMapping("/learningPlan")
     public LearningPlanModel newLearningSystemModel(@RequestBody LearningPlanModel newLearningPlanModel) {
         System.out.println("Received data: " + newLearningPlanModel); // Debugging line
         if (newLearningPlanModel.getPostOwnerID() == null || newLearningPlanModel.getPostOwnerID().isEmpty()) {
             throw new IllegalArgumentException("PostOwnerID is required."); // Ensure postOwnerID is provided
         }
-        // Fetch user's full name from UserRepository
+        
+        // Fetch user's full name from UserRepository 
         String postOwnerName = userRepository.findById(newLearningPlanModel.getPostOwnerID())
                 .map(user -> user.getFullname())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for ID: " + newLearningPlanModel.getPostOwnerID()));
