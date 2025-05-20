@@ -470,7 +470,6 @@ function AddLearningPlan() {
                               <span>Uploading...</span>
                             </div>
                           )}
-                          
                         </div>
                       ) : (
                         <div 
