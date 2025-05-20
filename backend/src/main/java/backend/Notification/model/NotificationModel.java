@@ -14,7 +14,8 @@ public class NotificationModel {
     private boolean read; // Whether the notification has been read
     private String createdAt; // Timestamp of the notification
 
-    public NotificationModel() {}
+    
+    public NotificationModel(){}
 
     public NotificationModel(String userId, String message, boolean read, String createdAt) {
         this.userId = userId;

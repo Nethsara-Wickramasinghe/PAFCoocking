@@ -1,34 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FaAward, FaTrophy, FaMedal, FaCrown } from "react-icons/fa";
 import { MdEdit, MdDelete } from "react-icons/md";
-import NavBar from '../../Components/NavBar/NavBar';
+import NavBar from "../../Components/NavBar/NavBar";
 import { IoIosCreate } from "react-icons/io";
 import { IoSearch, IoStatsChart, IoTrendingUp } from "react-icons/io5";
-import { motion, AnimatePresence } from 'framer-motion';
-import './Achievements.css';
+import { motion, AnimatePresence } from "framer-motion";
+import "./Achievements.css";
 
 function AllAchievements() {
   const [progressData, setProgressData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const userId = localStorage.getItem('userID');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const userId = localStorage.getItem("userID");
 
   const categories = [
-    { id: 'all', label: 'All Achievements', icon: FaTrophy },
-    { id: 'technical', label: 'Technical', icon: FaAward },
-    { id: 'soft', label: 'Soft Skills', icon: FaMedal },
-    { id: 'certifications', label: 'Certifications', icon: FaCrown }
+    { id: "all", label: "All Achievements", icon: FaTrophy },
+    { id: "technical", label: "Technical", icon: FaAward },
+    { id: "soft", label: "Soft Skills", icon: FaMedal },
+    { id: "certifications", label: "Certifications", icon: FaCrown },
   ];
 
   useEffect(() => {
-    fetch('http://localhost:8080/achievements')
+    fetch("http://localhost:8080/achievements")
       .then((response) => response.json())
       .then((data) => {
         setProgressData(data);
         setFilteredData(data);
       })
-      .catch((error) => console.error('Error fetching Achievements data:', error));
+      .catch((error) =>
+        console.error("Error fetching Achievements data:", error)
+      );
   }, []);
 
   const handleSearch = (e) => {
@@ -44,19 +46,24 @@ function AllAchievements() {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this Achievements?')) {
+    if (window.confirm("Are you sure you want to delete this Achievements?")) {
       try {
-        const response = await fetch(`http://localhost:8080/achievements/${id}`, {
-          method: 'DELETE',
-        });
+        const response = await fetch(
+          `http://localhost:8080/achievements/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
         if (response.ok) {
-          alert('Achievements deleted successfully!');
-          setFilteredData(filteredData.filter((progress) => progress.id !== id));
+          alert("Achievements deleted successfully!");
+          setFilteredData(
+            filteredData.filter((progress) => progress.id !== id)
+          );
         } else {
-          alert('Failed to delete Achievements.');
+          alert("Failed to delete Achievements.");
         }
       } catch (error) {
-        console.error('Error deleting Achievements:', error);
+        console.error("Error deleting Achievements:", error);
       }
     }
   };
@@ -85,7 +92,12 @@ function AllAchievements() {
               <IoStatsChart className="stat-icon trending" />
               <div className="stat-details">
                 <span className="stat-value">
-                  {filteredData.filter(a => new Date(a.date).getMonth() === new Date().getMonth()).length}
+                  {
+                    filteredData.filter(
+                      (a) =>
+                        new Date(a.date).getMonth() === new Date().getMonth()
+                    ).length
+                  }
                 </span>
                 <span className="stat-label">This Month</span>
               </div>
@@ -94,7 +106,10 @@ function AllAchievements() {
               <IoTrendingUp className="stat-icon growth" />
               <div className="stat-details">
                 <span className="stat-value">
-                  {Math.round((filteredData.length / progressData.length) * 100)}%
+                  {Math.round(
+                    (filteredData.length / progressData.length) * 100
+                  )}
+                  %
                 </span>
                 <span className="stat-label">Growth Rate</span>
               </div>
@@ -114,10 +129,12 @@ function AllAchievements() {
             </div>
 
             <div className="category-filters">
-              {categories.map(cat => (
+              {categories.map((cat) => (
                 <button
                   key={cat.id}
-                  className={`category-filter ${selectedCategory === cat.id ? 'active' : ''}`}
+                  className={`category-filter ${
+                    selectedCategory === cat.id ? "active" : ""
+                  }`}
                   onClick={() => setSelectedCategory(cat.id)}
                 >
                   <cat.icon />
@@ -130,15 +147,15 @@ function AllAchievements() {
 
         <motion.button
           className="floating-add-button"
-          whileHover={{ 
+          whileHover={{
             scale: 1.05,
-            boxShadow: "0 10px 25px rgba(102, 126, 234, 0.4)"
+            boxShadow: "0 10px 25px rgba(102, 126, 234, 0.4)",
           }}
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
-          onClick={() => window.location.href = '/addAchievements'}
+          onClick={() => (window.location.href = "/addAchievements")}
         >
           <div className="button-inner">
             <IoIosCreate className="add-icon" />
@@ -162,12 +179,12 @@ function AllAchievements() {
                   <p>Create your first milestone and track your progress</p>
                   <motion.button
                     className="first-achievement-btn"
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.05,
-                      boxShadow: "0 8px 20px rgba(102, 126, 234, 0.3)"
+                      boxShadow: "0 8px 20px rgba(102, 126, 234, 0.3)",
                     }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => window.location.href = '/addAchievements'}
+                    onClick={() => (window.location.href = "/addAchievements")}
                   >
                     <IoIosCreate className="btn-icon" />
                     <span>Add First Achievement</span>
@@ -176,10 +193,7 @@ function AllAchievements() {
                 </motion.div>
               </div>
             ) : (
-              <motion.div 
-                className="cards-container"
-                layout
-              >
+              <motion.div className="cards-container" layout>
                 {filteredData.map((progress) => (
                   <motion.div
                     key={progress.id}
@@ -187,14 +201,14 @@ function AllAchievements() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    whileHover={{ 
+                    whileHover={{
                       y: -5,
-                      boxShadow: "0 12px 30px rgba(0, 0, 0, 0.15)"
+                      boxShadow: "0 12px 30px rgba(0, 0, 0, 0.15)",
                     }}
                     transition={{ duration: 0.3 }}
                   >
                     {progress.imageUrl && (
-                      <motion.div 
+                      <motion.div
                         className="achievement-media"
                         whileHover={{ scale: 1.05 }}
                       >
@@ -205,60 +219,60 @@ function AllAchievements() {
                         <div className="media-overlay" />
                       </motion.div>
                     )}
-                    
+
                     <div className="achievement-content">
                       <div className="achievement-meta">
-                        <motion.div 
-                          className="meta-header"
-                          layout
-                        >
-                          <span className="achievement-date">{progress.date}</span>
+                        <motion.div className="meta-header" layout>
+                          <span className="achievement-date">
+                            {progress.date}
+                          </span>
                           <h3>{progress.title}</h3>
                         </motion.div>
                       </div>
-                      
-                      <p className="achievement-description">{progress.description}</p>
-                      
-                      <motion.div 
-                        className="achievement-footer"
-                        layout
-                      >
+
+                      <p className="achievement-description">
+                        {progress.description}
+                      </p>
+
+                      <motion.div className="achievement-footer" layout>
                         <div className="achievement-tags">
-                          <motion.span 
+                          <motion.span
                             className="tag"
                             whileHover={{ scale: 1.05 }}
                           >
                             Professional
                           </motion.span>
-                          <motion.span 
+                          <motion.span
                             className="tag"
                             whileHover={{ scale: 1.05 }}
                           >
                             Growth
                           </motion.span>
                         </div>
-                        
+
                         {progress.postOwnerID === userId && (
                           <div className="action-buttons">
                             <motion.button
                               className="action-btn edit-btn"
-                              whileHover={{ 
+                              whileHover={{
                                 scale: 1.05,
-                                backgroundColor: '#667eea',
-                                color: 'white' 
+                                backgroundColor: "#667eea",
+                                color: "white",
                               }}
                               whileTap={{ scale: 0.95 }}
-                              onClick={() => window.location.href = `/updateAchievements/${progress.id}`}
+                              onClick={() =>
+                                (window.location.href = `/updateAchievements/${progress.id}`)
+                              }
                             >
                               <MdEdit className="btn-icon" />
                               <span className="btn-text">Edit</span>
                             </motion.button>
                             <motion.button
                               className="action-btn delete-btn"
-                              whileHover={{ 
+                              whileHover={{
                                 scale: 1.05,
-                                backgroundColor: '#ff4444',
-                                color: 'white'
+                                backgroundColor: "#ff4444",
+                                color: "white",
                               }}
                               whileTap={{ scale: 0.95 }}
                               onClick={() => handleDelete(progress.id)}
