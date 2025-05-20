@@ -1,5 +1,7 @@
 package backend;
 
+import java.util.Properties;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -8,8 +10,6 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-
-import java.util.Properties;
 
 @SpringBootApplication(
 		exclude = {
@@ -28,7 +28,7 @@ public class BackendApplication {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
-		mailSender.setUsername("thivinasamarakkody@gmail.com");//add your email here
+		mailSender.setUsername("thivinasamarakkody@gmail.com"); //add your email here
 		mailSender.setPassword("qcwr yxqr rrsp zqdm");//add your password here
 
 		Properties props = mailSender.getJavaMailProperties();
