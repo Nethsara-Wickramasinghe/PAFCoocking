@@ -160,6 +160,7 @@ function AddNewPost() {
       </div>
     </div>
   );
+  
 }
 
 export default AddNewPost;
