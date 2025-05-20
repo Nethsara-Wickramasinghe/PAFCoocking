@@ -143,5 +143,4 @@ public class LearningPlanModel {
     public void setCategory(String category) {
         this.category = category;
     }
-
 }
