@@ -50,7 +50,7 @@ public class AchievementsController {
                     .substring(file.getOriginalFilename().lastIndexOf("."));
             String filename = UUID.randomUUID() + extension;
             Files.copy(file.getInputStream(), this.root.resolve(filename));
-            return filename; // Returns just the random filename
+            return filename; //Returns just the random filename
         } catch (Exception e) {
             throw new RuntimeException("Failed to upload image: " + e.getMessage());
         }
