@@ -94,4 +94,4 @@ public class AchievementsModel {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-}
+} 
