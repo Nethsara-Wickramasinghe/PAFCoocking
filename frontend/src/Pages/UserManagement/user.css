@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8b8a91 0%, #000000 100%);
   padding: 2rem;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .Auth_innerContainer_reg {
-  background-color: #ffffff;
+  background-color: #a8a8a8;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -137,7 +137,7 @@
 }
 
 .Auth_input:focus {
-  border-color: #667eea;
+  border-color: #ffffff;
   box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
