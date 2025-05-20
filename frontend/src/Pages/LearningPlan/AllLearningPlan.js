@@ -341,6 +341,7 @@ function AllLearningPlan() {
       </div>
     </motion.div>
   );
+  
 }
 
 export default AllLearningPlan;
