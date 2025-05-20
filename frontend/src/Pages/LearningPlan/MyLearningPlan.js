@@ -336,6 +336,7 @@ function MyLearningPlan() {
       </div>
     </motion.div>
   );
+  
 }
 
 export default MyLearningPlan;
