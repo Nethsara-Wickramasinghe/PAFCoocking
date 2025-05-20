@@ -36,7 +36,9 @@ function App() {
       const params = new URLSearchParams(window.location.search);
       const userID = params.get("userID");
       const name = params.get("name");
-      const googleProfileImage = decodeURIComponent(params.get("googleProfileImage")); // Decode the URL
+      const googleProfileImage = decodeURIComponent(
+        params.get("googleProfileImage")
+      ); // Decode the URL
 
       if (userID && name) {
         localStorage.setItem("userID", userID);
@@ -76,7 +78,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-           <Route
+          <Route
             path="/myLearningPlan"
             element={
               <ProtectedRoute>
@@ -108,7 +110,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-             <Route
+          <Route
             path="/googalUserPro"
             element={
               <ProtectedRoute>
@@ -172,7 +174,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-           <Route
+          <Route
             path="/myAllPost"
             element={
               <ProtectedRoute>
