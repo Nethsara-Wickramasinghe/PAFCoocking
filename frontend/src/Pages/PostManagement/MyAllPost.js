@@ -118,7 +118,7 @@ function MyAllPost() {
       setFilteredPosts(posts.filter((post) => post.userID === loggedInUserID));
     }
     setShowMyPosts(!showMyPosts); // Toggle the state
-  };
+  }; 
 
   const handleLike = async (postId) => {
     const userID = localStorage.getItem('userID');
