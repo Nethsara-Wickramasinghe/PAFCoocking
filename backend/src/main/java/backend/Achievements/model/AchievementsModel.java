@@ -1,10 +1,11 @@
 package backend.Achievements.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Achievements")
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Document(collection = "Achievement")
 public class AchievementsModel {
     @Id
     @GeneratedValue

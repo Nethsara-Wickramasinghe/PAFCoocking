@@ -1,18 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
-import NavBar from '../../Components/NavBar/NavBar';
-import './AddAchievements.css';
-import { motion } from 'framer-motion';
-import { IoCloudUpload, IoImage, IoCheckmarkCircle, IoClose } from "react-icons/io5";
+import React, { useState, useEffect, useRef } from "react";
+import NavBar from "../../Components/NavBar/NavBar";
+import "./AddAchievements.css";
+import { motion } from "framer-motion";
+import {
+  IoCloudUpload,
+  IoImage,
+  IoCheckmarkCircle,
+  IoClose,
+} from "react-icons/io5";
 import { FaLaptopCode, FaCode, FaUtensils, FaCamera } from "react-icons/fa";
 
 function AddAchievements() {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    date: '',
-    postOwnerID: '',
-    category: '',
-    postOwnerName: '',
+    title: "",
+    description: "",
+    date: "",
+    postOwnerID: "",
+    category: "",
+    postOwnerName: "",
   });
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -24,19 +29,19 @@ function AddAchievements() {
   const dropdownRef = useRef(null);
 
   const categories = [
-    { value: 'Tech', label: 'Technology', icon: FaLaptopCode },
-    { value: 'Programming', label: 'Programming', icon: FaCode },
-    { value: 'Cooking', label: 'Cooking', icon: FaUtensils },
-    { value: 'Photography', label: 'Photography', icon: FaCamera }
+    { value: "Tech", label: "Technology", icon: FaLaptopCode },
+    { value: "Programming", label: "Programming", icon: FaCode },
+    { value: "Cooking", label: "Cooking", icon: FaUtensils },
+    { value: "Photography", label: "Photography", icon: FaCamera },
   ];
 
   const validateImage = (file) => {
-    if (!file.type.startsWith('image/')) {
-      setError('Please upload an image file');
+    if (!file.type.startsWith("image/")) {
+      setError("Please upload an image file");
       return false;
     }
     if (file.size > 5 * 1024 * 1024) {
-      setError('Image size should be less than 5MB');
+      setError("Image size should be less than 5MB");
       return false;
     }
     return true;
@@ -81,17 +86,20 @@ function AddAchievements() {
   };
 
   useEffect(() => {
-    const userId = localStorage.getItem('userID');
+    const userId = localStorage.getItem("userID");
     if (userId) {
       setFormData((prevData) => ({ ...prevData, postOwnerID: userId }));
       fetch(`http://localhost:8080/user/${userId}`)
         .then((response) => response.json())
         .then((data) => {
           if (data && data.fullname) {
-            setFormData((prevData) => ({ ...prevData, postOwnerName: data.fullname }));
+            setFormData((prevData) => ({
+              ...prevData,
+              postOwnerName: data.fullname,
+            }));
           }
         })
-        .catch((error) => console.error('Error fetching user data:', error));
+        .catch((error) => console.error("Error fetching user data:", error));
     }
   }, []);
 
@@ -102,8 +110,8 @@ function AddAchievements() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleChange = (e) => {
@@ -112,64 +120,72 @@ function AddAchievements() {
   };
 
   const handleCategorySelect = (categoryValue) => {
-    handleChange({ target: { name: 'category', value: categoryValue } });
+    handleChange({ target: { name: "category", value: categoryValue } });
     setIsDropdownOpen(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
-      let imageUrl = '';
+      let imageUrl = "";
       if (image) {
         // Create a FormData specifically for the image upload
         const imageFormData = new FormData();
-        imageFormData.append('file', image);
-        
+        imageFormData.append("file", image);
+
         try {
-          const uploadResponse = await fetch('http://localhost:8080/achievements/upload', {
-            method: 'POST',
-            body: imageFormData,
-          });
-          
+          const uploadResponse = await fetch(
+            "http://localhost:8080/achievements/upload",
+            {
+              method: "POST",
+              body: imageFormData,
+            }
+          );
+
           if (!uploadResponse.ok) {
-            throw new Error(`Upload failed with status: ${uploadResponse.status}`);
+            throw new Error(
+              `Upload failed with status: ${uploadResponse.status}`
+            );
           }
-          
+
           imageUrl = await uploadResponse.text();
         } catch (uploadError) {
-          console.error('Image upload error:', uploadError);
+          console.error("Image upload error:", uploadError);
           alert(`Image upload failed: ${uploadError.message}`);
           setIsSubmitting(false);
           return;
         }
       }
-  
+
       // Create the achievement with the image URL
       const achievementData = {
         ...formData,
-        imageUrl: imageUrl
+        imageUrl: imageUrl,
       };
-  
+
       // Send the achievement data to create a new achievement
-      const achievementResponse = await fetch('http://localhost:8080/achievements', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(achievementData),
-      });
-  
+      const achievementResponse = await fetch(
+        "http://localhost:8080/achievements",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(achievementData),
+        }
+      );
+
       if (!achievementResponse.ok) {
         const errorText = await achievementResponse.text();
         throw new Error(`Failed to create achievement: ${errorText}`);
       }
-      
-      alert('Achievement added successfully!');
-      window.location.href = '/myAchievements';
+
+      alert("Achievement added successfully!");
+      window.location.href = "/myAchievements";
     } catch (error) {
-      console.error('Submit error:', error);
+      console.error("Submit error:", error);
       alert(`Failed to add Achievement: ${error.message}`);
     } finally {
       setIsSubmitting(false);
@@ -179,7 +195,7 @@ function AddAchievements() {
   return (
     <div className="achievement-form-container">
       <NavBar />
-      <motion.div 
+      <motion.div
         className="form-wrapper"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -189,10 +205,13 @@ function AddAchievements() {
           <p>Share your milestone with the community</p>
           <div className="progress-steps">
             {[1, 2, 3].map((step) => (
-              <div className={`step ${currentStep >= step ? 'active' : ''}`} key={step}>
+              <div
+                className={`step ${currentStep >= step ? "active" : ""}`}
+                key={step}
+              >
                 <div className="step-number">{step}</div>
                 <div className="step-label">
-                  {step === 1 ? 'Details' : step === 2 ? 'Media' : 'Review'}
+                  {step === 1 ? "Details" : step === 2 ? "Media" : "Review"}
                 </div>
               </div>
             ))}
@@ -201,8 +220,8 @@ function AddAchievements() {
 
         <form onSubmit={handleSubmit} className="modern-form">
           <div className="form-section">
-            <motion.div 
-              className={`upload-section ${isDragging ? 'dragging' : ''}`}
+            <motion.div
+              className={`upload-section ${isDragging ? "dragging" : ""}`}
               whileHover={{ scale: 1.02 }}
               onDragEnter={handleDragIn}
               onDragLeave={handleDragOut}
@@ -218,24 +237,30 @@ function AddAchievements() {
               />
               <label htmlFor="image-upload" className="upload-label">
                 {imagePreview ? (
-                  <motion.div 
+                  <motion.div
                     className="preview-container"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
-                    <img src={imagePreview} alt="Preview" className="image-preview" />
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="image-preview"
+                    />
                     <div className="preview-overlay">
                       <div className="preview-actions">
-                        <button 
-                          type="button" 
-                          className="change-image" 
-                          onClick={() => document.getElementById('image-upload').click()}
+                        <button
+                          type="button"
+                          className="change-image"
+                          onClick={() =>
+                            document.getElementById("image-upload").click()
+                          }
                         >
                           <IoImage />
                           <span>Change</span>
                         </button>
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           className="remove-image"
                           onClick={() => {
                             setImage(null);
@@ -249,10 +274,16 @@ function AddAchievements() {
                     </div>
                   </motion.div>
                 ) : (
-                  <div className={`upload-placeholder ${isDragging ? 'dragging' : ''}`}>
+                  <div
+                    className={`upload-placeholder ${
+                      isDragging ? "dragging" : ""
+                    }`}
+                  >
                     <IoCloudUpload className="upload-icon" />
                     <span className="upload-text">
-                      {isDragging ? 'Drop your image here' : 'Drag & drop your image or click to browse'}
+                      {isDragging
+                        ? "Drop your image here"
+                        : "Drag & drop your image or click to browse"}
                     </span>
                     {error && <span className="error-message">{error}</span>}
                   </div>
@@ -273,16 +304,29 @@ function AddAchievements() {
                 <label>Achievement Title</label>
               </div>
 
-              <div className="floating-input category-dropdown" ref={dropdownRef}>
-                <div 
-                  className={`custom-select ${isDropdownOpen ? 'open' : ''} ${formData.category ? 'has-value' : ''}`}
+              <div
+                className="floating-input category-dropdown"
+                ref={dropdownRef}
+              >
+                <div
+                  className={`custom-select ${isDropdownOpen ? "open" : ""} ${
+                    formData.category ? "has-value" : ""
+                  }`}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
                   <div className="selected-option">
                     {formData.category ? (
                       <>
-                        {categories.find(cat => cat.value === formData.category)?.icon?.({ className: 'category-icon' })}
-                        <span>{categories.find(cat => cat.value === formData.category)?.label}</span>
+                        {categories
+                          .find((cat) => cat.value === formData.category)
+                          ?.icon?.({ className: "category-icon" })}
+                        <span>
+                          {
+                            categories.find(
+                              (cat) => cat.value === formData.category
+                            )?.label
+                          }
+                        </span>
                       </>
                     ) : (
                       <span className="placeholder">Choose a category</span>
@@ -290,7 +334,7 @@ function AddAchievements() {
                   </div>
                   <label className="floating-label">Category</label>
                   {isDropdownOpen && (
-                    <motion.div 
+                    <motion.div
                       className="options-container"
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -298,7 +342,11 @@ function AddAchievements() {
                       {categories.map((category) => (
                         <div
                           key={category.value}
-                          className={`option ${formData.category === category.value ? 'selected' : ''}`}
+                          className={`option ${
+                            formData.category === category.value
+                              ? "selected"
+                              : ""
+                          }`}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleCategorySelect(category.value);
@@ -321,7 +369,7 @@ function AddAchievements() {
                   required
                   placeholder=" "
                   rows={4}
-                  className={formData.description ? 'has-value' : ''}
+                  className={formData.description ? "has-value" : ""}
                 />
                 <label className="floating-label">Description</label>
               </div>

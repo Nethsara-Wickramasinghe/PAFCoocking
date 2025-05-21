@@ -44,7 +44,6 @@ function AddNewPost() {
         alert(`Unsupported file type: ${file.type}`);
         window.location.reload();
       }
-
       // Add file preview object with type and URL
       previews.push({ type: file.type, url: URL.createObjectURL(file) });
     }
@@ -161,6 +160,7 @@ function AddNewPost() {
       </div>
     </div>
   );
+  
 }
 
 export default AddNewPost;
