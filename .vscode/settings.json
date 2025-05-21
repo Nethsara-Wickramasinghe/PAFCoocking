@@ -1,4 +1,8 @@
 {
+learning-plans
+    "java.compile.nullAnalysis.mode": "disabled"
+}
+=======
  post-management
     "java.compile.nullAnalysis.mode": "disabled",
     "java.configuration.updateBuildConfiguration": "interactive"
@@ -10,5 +14,6 @@
 =======
     "java.compile.nullAnalysis.mode": "automatic"
 }
+main
 main
 main

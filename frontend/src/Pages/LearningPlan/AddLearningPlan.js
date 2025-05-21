@@ -470,6 +470,7 @@ function AddLearningPlan() {
                               <span>Uploading...</span>
                             </div>
                           )}
+                             
                         </div>
                       ) : (
                         <div 
@@ -510,6 +511,7 @@ function AddLearningPlan() {
       </div>
     </div>
   );
+  
 }
 
 export default AddLearningPlan;
